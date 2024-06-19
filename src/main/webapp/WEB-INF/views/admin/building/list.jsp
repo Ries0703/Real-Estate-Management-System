@@ -369,7 +369,7 @@
                                             <i class="ace-icon fa fa-pencil-square-o"></i>
                                         </a>
                                     </div>
-                                </display:column>
+                            </display:column>
                         </display:table>
                         <ul class="pagination" id="pagination"></ul>
                         <input type="hidden" value="" id="page" name="page">

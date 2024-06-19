@@ -107,7 +107,8 @@ public class BuildingEntity extends BaseEntity {
     @OneToMany(
             mappedBy = "buildingEntity",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private Set<RentAreaEntity> rentAreaEntities;
 

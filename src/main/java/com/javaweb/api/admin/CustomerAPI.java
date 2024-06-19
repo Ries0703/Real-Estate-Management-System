@@ -2,6 +2,7 @@ package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.impl.UserService;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,14 @@ public class CustomerAPI {
     }
 
     @PutMapping("transactions")
-    public ResponseEntity<ResponseDTO> assignTransactionsToCustomer(@RequestBody AssignmentCustomerDTO assignmentCustomerDTO) {
+    public ResponseEntity<ResponseDTO> addTransaction(@RequestBody TransactionDTO transactionDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage("Success");
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @PostMapping("transactions")
+    public ResponseEntity<ResponseDTO> editTransaction(@RequestBody TransactionDTO transactionDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage("Success");
         return ResponseEntity.ok(responseDTO);

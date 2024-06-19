@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 public class RentAreaEntity extends BaseEntity{
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "buildingid")
 	private BuildingEntity buildingEntity;
 

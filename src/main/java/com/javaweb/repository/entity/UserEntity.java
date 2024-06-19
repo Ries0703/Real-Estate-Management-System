@@ -30,19 +30,15 @@ public class UserEntity extends BaseEntity {
     @Column(name = "email", unique = true)
     private String email;
 
+    @ManyToMany(mappedBy = "assignedStaffs", fetch = FetchType.LAZY)
+    private List<BuildingEntity> assignedBuildings;
+
+    @ManyToMany(mappedBy = "assignedStaffs", fetch = FetchType.LAZY)
+    private List<CustomerEntity> assignedCustomers;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
     private List<RoleEntity> roles;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "assignmentcustomer",
-        joinColumns = @JoinColumn(name = "staffid", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "customerid", nullable = false)
-    )
-    private List<CustomerEntity> customerEntityList;
-
-    @ManyToMany(mappedBy = "assignedStaffs", fetch = FetchType.LAZY)
-    private List<BuildingEntity> assignedBuildings;
 }

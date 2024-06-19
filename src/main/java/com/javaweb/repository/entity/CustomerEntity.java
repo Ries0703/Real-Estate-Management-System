@@ -35,9 +35,13 @@ public class CustomerEntity extends BaseEntity {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    @OneToMany(mappedBy = "customerEntity")
+    @OneToMany(mappedBy = "customerEntity", fetch = FetchType.LAZY)
     private List<TransactionEntity> transactionEntityList;
 
-    @ManyToMany(mappedBy = "customerEntityList")
-    private List<UserEntity> staffList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "assignmentcustomer",
+            joinColumns = @JoinColumn(name = "customerid", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false)
+    )
+    private List<UserEntity> assignedStaffs;
 }

@@ -10,8 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 public enum TransactionType {
     CSKH("Chăm sóc khách hàng"),
-    DDX("Dẫn đi xem"),
-    DDA("Dẫn đi ăn");
+    DDX("Dẫn đi xem");
 
     private final String transactionTypeName;
 
