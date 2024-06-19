@@ -41,7 +41,7 @@ public class BuildingConverter {
 		String address = String.join(", ",
 				building.getStreet(),
 				building.getWard(),
-				DistrictCode.valueOf(building.getDistrictCode()).getDistrictName());
+				building.getDistrictCode().getDistrictName());
 		String rentArea = building.getRentAreaEntities()
 		    .stream()
 		    .map(o -> o.getValue().toString())
@@ -62,7 +62,7 @@ public class BuildingConverter {
 		List<String> rentAreas = Arrays.asList(buildingDTO.getRentArea().trim().split("[ ,]+"));
 
 		buildingEntity.setType(type);
-		buildingEntity.setDistrictCode(buildingDTO.getDistrict().toString());
+		buildingEntity.setDistrictCode(buildingDTO.getDistrict());
 
         buildingEntity.setRentAreaEntities(
 				rentAreas.stream()

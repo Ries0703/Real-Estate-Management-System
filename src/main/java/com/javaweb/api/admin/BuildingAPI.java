@@ -46,7 +46,7 @@ public class BuildingAPI {
     @GetMapping(value = "/{id}/staffs")
     public ResponseDTO getBuildingStaffAssignment(@PathVariable("id") Long buildingId) {
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(userService.getAssignedStaff(buildingId));
+        responseDTO.setData(userService.getAssignedStaffBuilding(buildingId));
         responseDTO.setMessage("succeeded");
         return responseDTO;
     }

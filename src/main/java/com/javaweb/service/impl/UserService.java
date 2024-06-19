@@ -73,7 +73,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<StaffResponseDTO> getAssignedStaff(Long buildingId) {
+    public List<StaffResponseDTO> getAssignedStaffBuilding(Long buildingId) {
         List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
         Set<UserEntity> assignedStaffs = buildingRepository.findById(buildingId).get().getAssignedStaffs();
 

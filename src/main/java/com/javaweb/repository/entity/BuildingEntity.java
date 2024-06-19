@@ -1,6 +1,7 @@
 package com.javaweb.repository.entity;
 
 
+import com.javaweb.enums.DistrictCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +25,9 @@ public class BuildingEntity extends BaseEntity {
     @Column(name = "ward")
     private String ward;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "district")
-    private String districtCode;
+    private DistrictCode districtCode;
 
     @Column(name = "numberofbasement")
     private Long numberOfBasement;
