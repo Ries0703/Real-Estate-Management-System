@@ -80,20 +80,21 @@
 
                                         <div class="form-group">
                                             <div class="col-xs-12">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <label for="name">Nhân viên phụ trách</label>
                                                     <form:select path="staffId" cssClass="form-control">
                                                         <form:option value="" label="---Chọn NV---"/>
                                                         <form:options items="${staffs}"/>
                                                     </form:select>
                                                 </div>
+                                                <div class="col-sm-4">
+                                                    <label for="name">Tình trạng</label>
+                                                    <form:select path="status" cssClass="form-control">
+                                                        <form:options items="${statusMap}"/>
+                                                    </form:select>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label for="name">Tình trạng</label>
-                                                <form:select path="status" cssClass="form-control">
-                                                    <form:options items="${statusMap}"/>
-                                                </form:select>
-                                            </div>
+
                                         </div>
 
                                         <div class="form-group">
