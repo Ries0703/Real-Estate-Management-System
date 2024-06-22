@@ -3,7 +3,7 @@ package com.javaweb.api.admin;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
-import com.javaweb.service.IAssignmentBuildingService;
+import com.javaweb.service.IAssignmentService;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class BuildingAPI {
     private IBuildingService buildingService;
 
     @Autowired
-    private IAssignmentBuildingService assignmentBuildingService;
+    private IAssignmentService assignmentBuildingService;
 
     @Autowired
     private IUserService userService;

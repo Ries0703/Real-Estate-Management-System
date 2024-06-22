@@ -53,11 +53,11 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="col-sm-4">
-                                                    <label for="name">Tên khách hàng</label>
-                                                    <form:input path="name" class="form-control"/>
+                                                    <label>Tên khách hàng</label>
+                                                    <form:input path="fullName" class="form-control"/>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label for="name">Di động</label>
+                                                    <label>Di động</label>
                                                     <input
                                                             type="number"
                                                             class="form-control"
@@ -66,7 +66,7 @@
                                                     />
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label for="name">Email</label>
+                                                    <label>Email</label>
                                                     <input
                                                             type="email"
                                                             class="form-control"
@@ -81,15 +81,16 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="col-sm-4">
-                                                    <label for="name">Nhân viên phụ trách</label>
+                                                    <label>Nhân viên phụ trách</label>
                                                     <form:select path="staffId" cssClass="form-control">
                                                         <form:option value="" label="---Chọn NV---"/>
                                                         <form:options items="${staffs}"/>
                                                     </form:select>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label for="name">Tình trạng</label>
+                                                    <label>Tình trạng</label>
                                                     <form:select path="status" cssClass="form-control">
+                                                        <form:option value="" label="---Chọn tình trạng---"/>
                                                         <form:options items="${statusMap}"/>
                                                     </form:select>
                                                 </div>
@@ -302,6 +303,8 @@
 
     var currentPage = ${customerSearchRequest.page};
     var totalPage = ${customerSearchRequest.totalPages};
+    console.log(currentPage);
+    console.log(totalPage);
     $(() => {
         window.pagObj = $('#pagination').twbsPagination({
             totalPages: totalPage,

@@ -4,7 +4,10 @@ import com.javaweb.model.dto.AssignmentCustomerDTO;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.service.CustomerService;
+import com.javaweb.service.IUserService;
 import com.javaweb.service.impl.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,23 +17,25 @@ import java.util.List;
 @RequestMapping(value = "/api/customers")
 public class CustomerAPI {
 
-    private final UserService userService;
+    @Autowired
+    private IUserService userService;
 
-    public CustomerAPI(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private CustomerService customerService;
 
     @PutMapping
     public ResponseEntity<ResponseDTO> addCustomer(@RequestBody CustomerDTO customerDTO) {
+        customerService.addOrEditCustomer(customerDTO);
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage("Success");
+        responseDTO.setMessage("Add customer successfully");
         return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping
     public ResponseEntity<ResponseDTO> editCustomer(@RequestBody CustomerDTO customerDTO) {
+        customerService.addOrEditCustomer(customerDTO);
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage("Success");
+        responseDTO.setMessage("Edit customer successfully");
         return ResponseEntity.ok(responseDTO);
     }
 
