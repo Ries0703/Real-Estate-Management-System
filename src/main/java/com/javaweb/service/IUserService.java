@@ -24,4 +24,5 @@ public interface IUserService {
     int countTotalItems();
     Map<Long, String> getStaffs();
     List<StaffResponseDTO> getAssignedStaffBuilding(Long buildingId);
+    List<StaffResponseDTO> getAssignedStaffCustomer(Long customerId);
 }

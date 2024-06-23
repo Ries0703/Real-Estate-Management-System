@@ -40,4 +40,12 @@ public class BaseEntity implements Serializable {
     @LastModifiedBy
     private String modifiedBy;
 
+    @PrePersist
+    private void prePersist() {
+        modifiedDate = null;
+        modifiedBy = null;
+        if (createdBy.equals("anonymousUser")) {
+            createdBy = "Người dùng khách";
+        }
+    }
 }

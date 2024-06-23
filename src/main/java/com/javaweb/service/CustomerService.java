@@ -12,5 +12,5 @@ public interface CustomerService {
     List<CustomerSearchResponse> getCustomerByParams(CustomerSearchRequest customerSearchRequest, Pageable pageable);
     int getCustomerCountByParam(CustomerSearchRequest customerSearchRequest);
     void addOrEditCustomer(CustomerDTO customerDTO);
-    void deleteCustomer(List<Long> ids);
+    void softDeleteCustomer(List<Long> ids);
 }

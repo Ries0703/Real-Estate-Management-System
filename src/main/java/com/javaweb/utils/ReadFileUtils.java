@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ReadFileUtils extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String imageUrl = request.getRequestURI();
         int repIndex = imageUrl.indexOf("/repository");
         String relativeImagePath = null;

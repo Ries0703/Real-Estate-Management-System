@@ -26,6 +26,8 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
+
+
     @SuppressWarnings("unchecked")
     @Override
     public List<BuildingEntity> findAll(BuildingSearchRequest buildingSearch, Pageable pageable) {
@@ -92,7 +94,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
             where.append(" AND ra.value <= ").append(buildingSearch.getAreaTo());
         }
         List<TypeCode> typeCode = buildingSearch.getTypeCode();
-        if (StringUtil.usableTypeCode(typeCode)) {
+        if (usableTypeCode(typeCode)) {
             where.append(" AND (b.type LIKE '%").append(buildingSearch.getTypeCode().get(0)).append("%'");
             for (int i = 1; i < typeCode.size(); i++) {
                 where.append(" OR b.type LIKE '%").append(typeCode.get(i)).append("%' ");
@@ -109,6 +111,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
             join.append(" JOIN rentarea ra ON b.id = ra.buildingid");
         }
     }
+
     private StringBuilder searchQueryBuilder(BuildingSearchRequest buildingSearch) {
         StringBuilder select = new StringBuilder("SELECT ");
         StringBuilder distinct = new StringBuilder();
@@ -122,5 +125,11 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
             distinct.append(" DISTINCT ");
         }
         return select.append(distinct).append(columns).append(join).append(where);
+    }
+
+    private boolean usableTypeCode(List<TypeCode> typeCodes) {
+        if (typeCodes == null)
+            return false;
+        return typeCodes.stream().anyMatch(str -> !StringUtil.isEmpty(str));
     }
 }

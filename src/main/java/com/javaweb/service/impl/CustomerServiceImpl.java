@@ -7,10 +7,12 @@ import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.repository.CustomerRepository;
 import com.javaweb.repository.entity.CustomerEntity;
 import com.javaweb.service.CustomerService;
+import com.javaweb.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        return null;
+        CustomerEntity customerEntity = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("No customer with id = " + id));
+        return customerConverter.entityToDto(customerEntity);
     }
 
     @Override
@@ -41,11 +44,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void addOrEditCustomer(CustomerDTO customerDTO) {
-        customerRepository.save(customerConverter.dtoToEntity(customerDTO));
+        CustomerEntity customerEntity = customerConverter.dtoToEntity(customerDTO);
+        boolean isEditCustomer = !StringUtil.isEmpty(customerDTO.getId());
+
+        if (isEditCustomer) {
+            CustomerEntity oldCustomerEntity = customerRepository.findById(customerDTO.getId()).orElseThrow(() -> new RuntimeException("No customer with id = " + customerDTO.getId()));
+            customerEntity.setAssignedStaffs(oldCustomerEntity.getAssignedStaffs());
+        }
+
+        customerRepository.save(customerEntity);
     }
 
     @Override
-    public void deleteCustomer(List<Long> ids) {
-
+    @Transactional
+    public void softDeleteCustomer(List<Long> ids) {
+        customerRepository.deactivateCustomers(ids);
     }
 }

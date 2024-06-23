@@ -2,6 +2,7 @@ package com.javaweb.service.impl;
 
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.converter.UserConverter;
+import com.javaweb.repository.CustomerRepository;
 import com.javaweb.repository.entity.RoleEntity;
 import com.javaweb.repository.entity.UserEntity;
 import com.javaweb.exception.MyException;
@@ -42,6 +43,9 @@ public class UserService implements IUserService {
     @Autowired
     private BuildingRepository buildingRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Override
     public UserDTO findOneByUserNameAndStatus(String name, int status) {
         return userConverter.convertToDto(userRepository.findOneByUserNameAndStatus(name, status));
@@ -51,9 +55,9 @@ public class UserService implements IUserService {
     public List<UserDTO> getUsers(String searchValue, Pageable pageable) {
         Page<UserEntity> users = null;
         if (StringUtils.isNotBlank(searchValue)) {
-            users = userRepository.findByUserNameContainingIgnoreCaseOrFullNameContainingIgnoreCaseAndStatusNot(searchValue, searchValue, 0, pageable);
+            users = userRepository.findByUserNameContainingIgnoreCaseOrFullNameContainingIgnoreCaseAndStatus(searchValue, searchValue, 1, pageable);
         } else {
-            users = userRepository.findByStatusNot(0, pageable);
+            users = userRepository.findByStatus(1, pageable);
         }
         return users.getContent().stream().map(userEntity -> {
             UserDTO userDTO = userConverter.convertToDto(userEntity);
@@ -76,6 +80,19 @@ public class UserService implements IUserService {
     public List<StaffResponseDTO> getAssignedStaffBuilding(Long buildingId) {
         List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
         Set<UserEntity> assignedStaffs = buildingRepository.findById(buildingId).get().getAssignedStaffs();
+
+        return staffs.stream().map(userEntity -> {
+            if (assignedStaffs.contains(userEntity)) {
+                return userConverter.toStaffResponseDTO(userEntity, "checked");
+            }
+            return userConverter.toStaffResponseDTO(userEntity, "");
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StaffResponseDTO> getAssignedStaffCustomer(Long customerId) {
+        List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+        List<UserEntity> assignedStaffs = customerRepository.findById(customerId).get().getAssignedStaffs();
 
         return staffs.stream().map(userEntity -> {
             if (assignedStaffs.contains(userEntity)) {

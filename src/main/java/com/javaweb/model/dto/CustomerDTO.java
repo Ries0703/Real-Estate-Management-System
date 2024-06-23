@@ -16,5 +16,4 @@ public class CustomerDTO extends AbstractDTO<CustomerDTO> {
     private String companyName;
     private String demand;
     private Status status = Status.CHUA_XU_LY;
-    private List<TransactionDTO> transactionDTOList;
 }

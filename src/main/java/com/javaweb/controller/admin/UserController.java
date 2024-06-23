@@ -37,8 +37,7 @@ public class UserController {
 		mav.addObject(SystemConstant.MODEL, model);
 		initMessageResponse(mav, request);
 
-		List<String> currentUserRoles = SecurityUtils.getPrincipal().getRoles();
-		return mav.addObject("currentUserRoles", currentUserRoles);
+		return mav;
 	}
 
 	@RequestMapping(value = "/admin/user-edit", method = RequestMethod.GET)

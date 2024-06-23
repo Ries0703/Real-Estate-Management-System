@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> , UserRepositoryCustom {
     UserEntity findOneByUserNameAndStatus(String name, int status);
-    Page<UserEntity> findByUserNameContainingIgnoreCaseOrFullNameContainingIgnoreCaseAndStatusNot(String userName, String fullName, int status, Pageable pageable);
+    Page<UserEntity> findByUserNameContainingIgnoreCaseOrFullNameContainingIgnoreCaseAndStatus(String userName, String fullName, int status, Pageable pageable);
     List<UserEntity> findByStatusAndRoles_Code(Integer status, String roleCode);
-    Page<UserEntity> findByStatusNot(int status, Pageable pageable);
+    Page<UserEntity> findByStatus(int status, Pageable pageable);
     UserEntity findOneByUserName(String userName);
     List<UserEntity> findByIdIn(List<Long> id);
 }

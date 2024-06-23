@@ -1,8 +1,11 @@
 package com.javaweb.service;
 
+import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.TransactionDTO;
 
+import java.util.List;
+
 public interface TransactionService {
-    void addTransaction(TransactionDTO transactionDTO);
-    void updateTransaction(TransactionDTO transactionDTO);
+    void addOrEditTransaction(TransactionDTO transactionDTO);
+    List<TransactionDTO> getTransactionsByCodeAndCustomerId(TransactionType transactionType, Long customerId);
 }

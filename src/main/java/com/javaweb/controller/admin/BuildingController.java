@@ -38,8 +38,7 @@ public class BuildingController {
                 .addObject("buildingList", buildingService.findAll(buildingSearchRequest, PageRequest.of(page - 1, limit)))
                 .addObject("staffs", userService.getStaffs())
                 .addObject("districtCodes", DistrictCode.districtMap())
-                .addObject("typeCodes", TypeCode.typeCodeMap())
-                .addObject("currentUserRoles", SecurityUtils.getPrincipal().getRoles());
+                .addObject("typeCodes", TypeCode.typeCodeMap());
     }
 
     @GetMapping(value = "/admin/building-edit")
@@ -55,7 +54,6 @@ public class BuildingController {
         return new ModelAndView("admin/building/edit")
                 .addObject("buildingEdit", buildingService.findById(id))
                 .addObject("districtCodes", DistrictCode.districtMap())
-                .addObject("typeCodes", TypeCode.typeCodeMap())
-                .addObject("currentUserRoles", SecurityUtils.getPrincipal().getRoles());
+                .addObject("typeCodes", TypeCode.typeCodeMap());
     }
 }
