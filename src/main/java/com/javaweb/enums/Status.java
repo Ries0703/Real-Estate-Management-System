@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
@@ -26,5 +27,9 @@ public enum Status {
                 .collect(Collectors.toMap(Status::toString, Status::getStatusName,
                         (oldItem, newItem) -> oldItem, LinkedHashMap::new));
 
+    }
+
+    public static Optional<Status> reverseLookup(String statusName) {
+        return Arrays.stream(Status.values()).filter(e -> e.statusName.equals(statusName)).findFirst();
     }
 }

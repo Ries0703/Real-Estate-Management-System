@@ -28,9 +28,8 @@ public class CustomerEntity extends BaseEntity {
     @Column(name = "demand")
     private String demand;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private String status;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
