@@ -1,6 +1,5 @@
 package com.javaweb.repository.entity;
 
-import com.javaweb.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -5,16 +5,19 @@ import com.javaweb.repository.entity.BuildingEntity;
 import com.javaweb.enums.TypeCode;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
+import com.javaweb.repository.entity.CustomerEntity;
 import com.javaweb.utils.StringUtil;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
@@ -39,6 +42,18 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
         Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<BuildingEntity> findByIdAndAssignedStaff(Long buildingId, Long assignedStaffId) {
+        String queryString = String.format("SELECT * FROM building b JOIN assignmentbuilding asb ON b.id = asb.buildingid WHERE b.id = %s AND asb.staffid = %s", buildingId, assignedStaffId);
+        Query query = entityManager.createNativeQuery(queryString, BuildingEntity.class);
+        try {
+            BuildingEntity buildingEntity = (BuildingEntity) query.getSingleResult();
+            return Optional.of(buildingEntity);
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
     }
 
     @Override

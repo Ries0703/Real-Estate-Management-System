@@ -12,4 +12,6 @@ import java.util.List;
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>, BuildingRepositoryCustom {
     @Transactional
     void deleteByIdIn(List<Long> id);
+
+
 }

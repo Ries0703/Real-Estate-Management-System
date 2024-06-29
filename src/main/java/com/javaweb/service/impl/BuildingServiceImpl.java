@@ -6,6 +6,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.entity.CustomerEntity;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.utils.StringUtil;
 import com.javaweb.utils.UploadFileUtils;
@@ -46,6 +47,12 @@ public class BuildingServiceImpl implements IBuildingService {
             return new BuildingDTO();
         }
         return buildingConverter.entityToDto(buildingEntity.get());
+    }
+
+    @Override
+    public BuildingDTO findByIdAndAssignedStaff(Long buildingId, Long staffId) {
+        BuildingEntity buildingEntity = buildingRepository.findByIdAndAssignedStaff(buildingId, staffId).orElse(null);
+        return buildingEntity == null ? null : buildingConverter.entityToDto(buildingEntity);
     }
 
     @Override

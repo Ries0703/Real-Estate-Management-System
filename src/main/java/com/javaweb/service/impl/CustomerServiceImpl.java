@@ -32,6 +32,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public CustomerDTO getCustomerByIdAndAssignedStaff(Long customerId, Long assignedStaffId) {
+        CustomerEntity customerEntity = customerRepository.findCustomerByIdAndAssignedStaff(customerId, assignedStaffId).orElse(null);
+        return customerEntity == null ? null : customerConverter.entityToDto(customerEntity);
+    }
+
+    @Override
     public List<CustomerSearchResponse> getCustomerByParams(CustomerSearchRequest customerSearchRequest, Pageable pageable) {
         List<CustomerEntity> results = customerRepository.findCustomerByParams(customerSearchRequest, pageable);
         return results.stream().map(customerConverter::entityToResponse).collect(Collectors.toList());

@@ -9,9 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
@@ -26,6 +28,18 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
                 .append(" OFFSET ").append(pageable.getOffset());
         Query query = entityManager.createNativeQuery(queryString.toString(), CustomerEntity.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<CustomerEntity> findCustomerByIdAndAssignedStaff(Long customerId, Long staffId) {
+        String queryString = String.format("SELECT * FROM customer cus JOIN assignmentcustomer ascm ON cus.id = ascm.customerid WHERE cus.id = %s AND ascm.staffid = %s", customerId, staffId);
+        Query query = entityManager.createNativeQuery(queryString, CustomerEntity.class);
+        try {
+            CustomerEntity customer = (CustomerEntity) query.getSingleResult();
+            return Optional.of(customer);
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
     }
 
     @Override

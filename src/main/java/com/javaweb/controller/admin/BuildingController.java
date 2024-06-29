@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 @Controller(value = "buildingControllerOfAdmin")
 public class BuildingController {
 
@@ -30,13 +35,24 @@ public class BuildingController {
     public ModelAndView buildingList(@ModelAttribute("buildingSearchRequest") BuildingSearchRequest buildingSearchRequest,
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "limit", defaultValue = "2") Integer limit) {
+
+        Map<Long, String> staffs = new TreeMap<>();
+
+        if (SecurityUtils.getAuthorities().contains("ROLE_MANAGER")) {
+            staffs = userService.getStaffs();
+        } else {
+            buildingSearchRequest.setStaffId(SecurityUtils.getPrincipal().getId());
+            staffs.put(SecurityUtils.getPrincipal().getId(), SecurityUtils.getPrincipal().getFullName());
+        }
+
         buildingSearchRequest.setPage(page);
         buildingSearchRequest.setMaxPageItems(limit);
         buildingSearchRequest.setTotalItems(buildingService.getBuildingCount(buildingSearchRequest));
 
+
         return new ModelAndView("admin/building/list")
                 .addObject("buildingList", buildingService.findAll(buildingSearchRequest, PageRequest.of(page - 1, limit)))
-                .addObject("staffs", userService.getStaffs())
+                .addObject("staffs", staffs)
                 .addObject("districtCodes", DistrictCode.districtMap())
                 .addObject("typeCodes", TypeCode.typeCodeMap());
     }
@@ -50,9 +66,9 @@ public class BuildingController {
     }
 
     @GetMapping(value = "/admin/building-edit-{id}")
-    public ModelAndView editBuilding(@PathVariable(value = "id") Long id) {
+    public ModelAndView editBuilding(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         return new ModelAndView("admin/building/edit")
-                .addObject("buildingEdit", buildingService.findById(id))
+                .addObject("buildingEdit", request.getAttribute("building"))
                 .addObject("districtCodes", DistrictCode.districtMap())
                 .addObject("typeCodes", TypeCode.typeCodeMap());
     }
