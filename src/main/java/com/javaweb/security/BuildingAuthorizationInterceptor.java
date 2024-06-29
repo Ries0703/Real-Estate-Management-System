@@ -15,13 +15,13 @@ import java.util.regex.Pattern;
 
 @Component
 public class BuildingAuthorizationInterceptor implements HandlerInterceptor {
-    private static final Pattern BUILDING_ID_PATTERN = Pattern.compile("/admin/building-edit-(\\d+)");
+    private static final Pattern BUILDING_EDIT_PATTERN = Pattern.compile("/admin/building-edit-(\\d+)");
 
     @Autowired
     private IBuildingService buildingService;
 
     private static Optional<Long> extractBuildingIdFromRequest(String requestURI) {
-        Matcher matcher = BUILDING_ID_PATTERN.matcher(requestURI);
+        Matcher matcher = BUILDING_EDIT_PATTERN.matcher(requestURI);
         if (matcher.find()) {
             return Optional.of(Long.parseLong(matcher.group(1)));
         }
