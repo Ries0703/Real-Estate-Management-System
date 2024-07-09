@@ -40,8 +40,7 @@ public class CustomerAuthorizationInterceptor implements HandlerInterceptor {
         }
 
         Long staffId = SecurityUtils.getPrincipal().getId();
-        CustomerDTO customerDTO = customerService.getCustomerByIdAndAssignedStaff(customerId, staffId);
-
+        CustomerDTO customerDTO = customerService.getCustomerByIdAndStatusAndAssignedStaff(customerId, 1, staffId);
 
         if (customerDTO == null) {
             response.sendRedirect("/access-denied");

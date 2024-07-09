@@ -31,8 +31,8 @@ public class CustomerRepositoryCustomImpl implements CustomerRepositoryCustom {
     }
 
     @Override
-    public Optional<CustomerEntity> findCustomerByIdAndAssignedStaff(Long customerId, Long staffId) {
-        String queryString = String.format("SELECT * FROM customer cus JOIN assignmentcustomer ascm ON cus.id = ascm.customerid WHERE cus.id = %s AND cus.is_active = 1 AND ascm.staffid = %s", customerId, staffId);
+    public Optional<CustomerEntity> findCustomerByIdAndStatusAndAssignedStaff(Long customerId, Integer status ,Long staffId) {
+        String queryString = String.format("SELECT * FROM customer cus JOIN assignmentcustomer ascm ON cus.id = ascm.customerid WHERE cus.id = %s AND cus.is_active = %s AND ascm.staffid = %s", customerId, status, staffId);
         Query query = entityManager.createNativeQuery(queryString, CustomerEntity.class);
         try {
             CustomerEntity customer = (CustomerEntity) query.getSingleResult();

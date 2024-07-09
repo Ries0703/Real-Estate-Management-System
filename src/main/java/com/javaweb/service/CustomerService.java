@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CustomerService {
     CustomerDTO getCustomerById(Long id);
-    CustomerDTO getCustomerByIdAndAssignedStaff(Long id, Long assignedStaffId);
+    CustomerDTO getCustomerByIdAndStatusAndAssignedStaff(Long id, Integer status ,Long assignedStaffId);
     List<CustomerSearchResponse> getCustomerByParams(CustomerSearchRequest customerSearchRequest, Pageable pageable);
     int getCustomerCountByParam(CustomerSearchRequest customerSearchRequest);
     void addOrEditCustomer(CustomerDTO customerDTO);

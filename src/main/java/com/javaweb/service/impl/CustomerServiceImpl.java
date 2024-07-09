@@ -32,8 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomerByIdAndAssignedStaff(Long customerId, Long assignedStaffId) {
-        CustomerEntity customerEntity = customerRepository.findCustomerByIdAndAssignedStaff(customerId, assignedStaffId).orElse(null);
+    public CustomerDTO getCustomerByIdAndStatusAndAssignedStaff(Long customerId, Integer status ,Long assignedStaffId) {
+        CustomerEntity customerEntity = customerRepository.findCustomerByIdAndStatusAndAssignedStaff(customerId, status, assignedStaffId).orElse(null);
         return customerEntity == null ? null : customerConverter.entityToDto(customerEntity);
     }
 

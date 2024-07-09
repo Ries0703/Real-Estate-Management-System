@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface CustomerRepositoryCustom {
     List<CustomerEntity> findCustomerByParams(CustomerSearchRequest customerSearchRequest, Pageable pageable);
-    Optional<CustomerEntity> findCustomerByIdAndAssignedStaff(Long customerId, Long staffId);
+    Optional<CustomerEntity> findCustomerByIdAndStatusAndAssignedStaff(Long customerId, Integer status ,Long staffId);
     int getCustomerCount(CustomerSearchRequest customerSearchRequest);
 }
