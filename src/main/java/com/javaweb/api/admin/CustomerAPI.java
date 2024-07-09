@@ -25,9 +25,6 @@ public class CustomerAPI {
     private CustomerService customerService;
 
     @Autowired
-    private TransactionService transactionService;
-
-    @Autowired
     private IAssignmentService assignmentService;
 
     @PutMapping
@@ -45,7 +42,6 @@ public class CustomerAPI {
         responseDTO.setMessage("Edit customer successfully");
         return ResponseEntity.ok(responseDTO);
     }
-
 
     @PostMapping(value = "/{ids}")
     public ResponseEntity<ResponseDTO> deleteCustomer(@PathVariable("ids") List<Long> ids) {
@@ -67,22 +63,6 @@ public class CustomerAPI {
         assignmentService.assignStaffsToCustomer(assignmentCustomerDTO);
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage("Assign Customer Successfully");
-        return ResponseEntity.ok(responseDTO);
-    }
-
-    @PutMapping("/transactions")
-    public ResponseEntity<ResponseDTO> addTransaction(@RequestBody TransactionDTO transactionDTO) {
-        transactionService.addOrEditTransaction(transactionDTO);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage("Transaction added successfully");
-        return ResponseEntity.ok(responseDTO);
-    }
-
-    @PostMapping("/transactions")
-    public ResponseEntity<ResponseDTO> editTransaction(@RequestBody TransactionDTO transactionDTO) {
-        transactionService.addOrEditTransaction(transactionDTO);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setMessage("Transaction edit successfully");
         return ResponseEntity.ok(responseDTO);
     }
 }

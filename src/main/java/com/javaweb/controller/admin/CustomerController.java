@@ -4,14 +4,12 @@ import com.javaweb.enums.Status;
 import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.TransactionDTO;
-import com.javaweb.model.dto.UserDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
 import com.javaweb.service.IUserService;
 import com.javaweb.service.TransactionService;
-import com.javaweb.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -48,16 +46,13 @@ public class CustomerController {
         if (SecurityUtils.getAuthorities().contains("ROLE_MANAGER")) {
             staffs = userService.getStaffs();
         } else {
-            customerSearchRequest.setStaffId(SecurityUtils.getPrincipal().getId());
             staffs.put(SecurityUtils.getPrincipal().getId(), SecurityUtils.getPrincipal().getFullName());
+            customerSearchRequest.setStaffId(SecurityUtils.getPrincipal().getId());
         }
-
 
         customerSearchRequest.setPage(page);
         customerSearchRequest.setMaxPageItems(limit);
         customerSearchRequest.setTotalItems(customerService.getCustomerCountByParam(customerSearchRequest));
-
-
 
         List<CustomerSearchResponse> customerSearchResponses = customerService.getCustomerByParams(customerSearchRequest, PageRequest.of(page - 1, limit));
         return new ModelAndView("admin/customer/list").addObject("customerList", customerSearchResponses)
@@ -73,7 +68,6 @@ public class CustomerController {
                 .addObject("statusMap", Status.statusMap());
     }
 
-
     @GetMapping(value = "/admin/customer-edit-{id}")
     public ModelAndView editCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
 
@@ -88,6 +82,4 @@ public class CustomerController {
                 .addObject("transactionDDX", transactionDDX)
                 .addObject("transactionMap", TransactionType.transactionTypeMap());
     }
-
-
 }

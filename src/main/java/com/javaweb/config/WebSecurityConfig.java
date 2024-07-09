@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         // CustomerAPIs
                         .antMatchers(HttpMethod.GET, "/api/customers/{id}/staffs").hasRole("MANAGER")
-                        .antMatchers(HttpMethod.PUT, "/api/customers").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/api/customers").hasAnyRole("MANAGER", "STAFF")
                         .antMatchers(HttpMethod.PUT, "/api/customers/staffs").hasRole("MANAGER")
                         .antMatchers("/api/customers/transactions").hasAnyRole("MANAGER", "STAFF")
                         .antMatchers(HttpMethod.POST, "/api/customers/{ids}", "/api/customers").hasRole("MANAGER")
@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         // Customer Pages
                         .antMatchers("/admin/customer-edit-{id}", "/admin/customer-list").hasAnyRole("MANAGER", "STAFF")
-                        .antMatchers("/admin/customer-edit").hasAnyRole("MANAGER")
+                        .antMatchers("/admin/customer-edit").hasAnyRole("MANAGER", "STAFF")
 
                         // User Pages
                         .antMatchers("/admin/home", "/admin/profile-password", "/admin/profile-{username}", "/admin/user-list").hasAnyRole("MANAGER", "STAFF")

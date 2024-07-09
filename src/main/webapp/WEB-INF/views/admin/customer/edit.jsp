@@ -193,24 +193,29 @@
             <input type="hidden" name="id" id="id" value="">
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" id="btnAddOrUpdateTransaction">Thêm giao dịch</button>
+            <button type="button" class="btn btn-default" id="btnAddOrUpdateTransaction"></button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
         </div>
     </div>
 </div>
 
 <script>
+
     function transactionType(code, customerId) {
-        $('#transactionTypeModal').modal()
-        $('#customerId').val(customerId)
-        $('#code').val(code)
+        $('#id').val(null);
+        $('#transactionDetail').val("");
+        $('#code').val(code);
+        $('#customerId').val(customerId);
+        document.getElementById('btnAddOrUpdateTransaction').textContent = "Thêm giao dịch";
+        $('#transactionTypeModal').modal();
     }
 
     function updateTransaction(id, note, code) {
-        $('#id').val(id)
-        $('#transactionTypeModal').modal()
+        $('#id').val(id);
         $('#transactionDetail').val(note);
-        $('#code').val(code)
+        $('#code').val(code);
+        document.getElementById('btnAddOrUpdateTransaction').textContent = "Sửa giao dịch";
+        $('#transactionTypeModal').modal()
     }
 
     $(document).ready(function() {

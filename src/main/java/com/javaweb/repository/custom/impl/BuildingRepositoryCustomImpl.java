@@ -5,7 +5,6 @@ import com.javaweb.repository.entity.BuildingEntity;
 import com.javaweb.enums.TypeCode;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
-import com.javaweb.repository.entity.CustomerEntity;
 import com.javaweb.utils.StringUtil;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -18,6 +17,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
@@ -79,42 +79,41 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
                     continue;
                 }
                 if (LIKE_FIELDS.contains(key)) {
-                    where.append(" AND b.").append(key).append(" LIKE '%").append(value.toString().trim()).append("%' ");
+                    where.append(String.format(" AND b.%s LIKE '%%%s%%' ", key, value.toString().trim()));
                 } else if (EQUAL_FIELDS.contains(key)) {
-                    where.append(" AND b.").append(key).append(" = ").append(value);
+                    where.append(String.format(" AND b.%s = %s", key, value));
                 } else if (STAFF_ID_FIELD.equals(key)) {
-                    where.append(" AND asb.staffid = ").append(value);
+                    where.append(String.format(" AND asb.staffid = %s", value));
                 }
             }
         } catch (IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 
     private void sqlWhereComplex(BuildingSearchRequest buildingSearch, StringBuilder where) {
         if (!StringUtil.isEmpty(buildingSearch.getRentPriceFrom())) {
-            where.append(" AND b.rentprice >= ").append(buildingSearch.getRentPriceFrom());
+            where.append(String.format(" AND b.rentprice >= %s", buildingSearch.getRentPriceFrom()));
         }
 
         if (!StringUtil.isEmpty(buildingSearch.getRentPriceTo())) {
-            where.append(" AND b.rentprice <= ").append(buildingSearch.getRentPriceTo());
+            where.append(String.format(" AND b.rentprice <= %s", buildingSearch.getRentPriceTo()));
         }
 
         if (!StringUtil.isEmpty(buildingSearch.getAreaFrom())) {
-            where.append(" AND ra.value >= ").append(buildingSearch.getAreaFrom());
+            where.append(String.format(" AND ra.value >= %s", buildingSearch.getAreaFrom()));
         }
 
         if (!StringUtil.isEmpty(buildingSearch.getAreaTo())) {
-            where.append(" AND ra.value <= ").append(buildingSearch.getAreaTo());
+            where.append(String.format(" AND ra.value <= %s", buildingSearch.getAreaTo()));
         }
+
         List<TypeCode> typeCode = buildingSearch.getTypeCode();
         if (usableTypeCode(typeCode)) {
-            where.append(" AND (b.type LIKE '%").append(buildingSearch.getTypeCode().get(0)).append("%'");
-            for (int i = 1; i < typeCode.size(); i++) {
-                where.append(" OR b.type LIKE '%").append(typeCode.get(i)).append("%' ");
-            }
-            where.append(")");
+            String typeConditions = typeCode.stream()
+                    .map(code -> String.format("b.type LIKE '%%%s%%'", code))
+                    .collect(Collectors.joining(" OR ", " AND (", ")"));
+            where.append(typeConditions);
         }
     }
 
